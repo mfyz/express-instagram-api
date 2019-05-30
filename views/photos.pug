@@ -1,0 +1,8 @@
+extends layout
+
+block body
+	h3 My IG Photos
+
+	each photo in photos
+		div
+			img(src=photo.url)
