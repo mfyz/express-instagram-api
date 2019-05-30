@@ -18,9 +18,7 @@ app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(session({
 	secret: 'keyboard cat on instagram',
-	resave: false,
-	saveUninitialized: true,
-	cookie: { secure: true }
+	cookie: { secure: true, maxAge: 60000 }
 }))
 
 app.get('/', (req, res) => {
@@ -52,7 +50,7 @@ app.get('/instagram/photos', (req, res) => {
 	// use ig token from db (that is linked to the browser session id)
 	const accessToken = req.session.igAccessToken
 
-	return res.json(req.session)
+	return res.json(req.session.igAccessToken)
 
 	try {
 		ig.use({ access_token: accessToken })
