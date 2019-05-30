@@ -5,7 +5,7 @@ block body
 
 	div
 		each photo in photos
-			.card.col-md-3.col-sm-6
+			.card(style='float: left;')
 				img.card-img-top(src= photo.images.low_resolution.url)
 				.card-body
 					a.card-link(href= photo.link)= photo.link
