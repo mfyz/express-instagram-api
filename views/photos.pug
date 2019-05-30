@@ -3,9 +3,8 @@ extends layout
 block body
 	h3 My IG Photos
 
-	div
+	div.card-columns(style='column-count:3')
 		each photo in photos
 			.card.mb-2.mr-2(style='float: left;')
-				img.card-img-top(src= photo.images.low_resolution.url)
-				.card-body
-					a.card-link(href= photo.link)= photo.link
+				a(href= photo.link)
+					img.card-img-top(src= photo.images.low_resolution.url)
