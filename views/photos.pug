@@ -3,7 +3,9 @@ extends layout
 block body
 	h3 My IG Photos
 
-	each photo in photos
-		.photo
-			img(src= photo.images.low_resolution.url)
-			a(href= photo.link) photo.link
+	div
+		each photo in photos
+			.card.col-md-3.col-sm-6
+				img.card-img-top(src= photo.images.low_resolution.url)
+				.card-body
+					a.card-link(href= photo.link)= photo.link
