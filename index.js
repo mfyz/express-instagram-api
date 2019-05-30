@@ -42,6 +42,8 @@ app.get('/instagram/callback', (req, res) => {
 app.get('/instagram/photos', (req, res) => {
 	// use ig token from db (that is linked to the browser session id)
 
+	console.log(accessToken)
+
 	ig.use({
 		access_token : accessToken
 	})
