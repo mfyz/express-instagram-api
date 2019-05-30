@@ -42,13 +42,14 @@ app.get('/instagram/callback', (req, res) => {
 app.get('/instagram/photos', (req, res) => {
 	// use ig token from db (that is linked to the browser session id)
 
-	console.log(accessToken)
+	// access token format:
+	// 1654560409.903dd15.416181f715cc44f99f9cf5b9a9f6c169
 
 	ig.use({
 		access_token : accessToken
 	})
 	
-	ig.user_media_recent("access_token.split('.')[0]", (err, result, pagination, remaining, limit) => {
+	ig.user_media_recent(accessToken.split('.')[0], (err, result, pagination, remaining, limit) => {
 		if(err) res.json(err)
 		console.log('instagram recent photos api call result')
 		console.log(result)
