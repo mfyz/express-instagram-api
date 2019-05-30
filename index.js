@@ -52,6 +52,8 @@ app.get('/instagram/photos', (req, res) => {
 	// use ig token from db (that is linked to the browser session id)
 	const accessToken = req.session.igAccessToken
 
+	return res.json(req.session)
+
 	try {
 		ig.use({ access_token: accessToken })
 
