@@ -1,5 +1,12 @@
 # Express Instagram API App
 
+A minimal node/express web application with instagram auth and api example.
+
+Live demo: [https://mfyz-express-ig-api.herokuapp.com](https://mfyz-express-ig-api.herokuapp.com)
+
+
+### Set up
+
 Create .env file and set up instagram application in developer page. Then add your app id and secret in .env file:
 
 ```
