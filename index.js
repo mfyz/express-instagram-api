@@ -1,7 +1,7 @@
 const express = require('express')
 const path = require('path')
 const ig = require('instagram-node').instagram()
-const session = require('express-session')
+const cookieParser = require('cookie-parser')
 
 const PORT = process.env.PORT || 8110
 
@@ -16,12 +16,7 @@ let accessToken = null
 const app = express()
 app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, 'public')))
-app.use(session({
-	secret: 'keyboard cat on instagram',
-	cookie: { secure: true, maxAge: 60000 },
-	resave: true,
-	saveUninitialized: true
-}))
+app.use(cookieParser())
 
 app.get('/', (req, res) => {
 	res.render('index', { message: 'Go ahead and login with Instagram' })
@@ -43,17 +38,17 @@ app.get('/instagram/callback', (req, res) => {
 		if(err) return res.send(err)
 		// store token in db and create a browser session id to use the token from db
 		// method below is not secure at all
-		req.session.igAccessToken = result.access_token
+		res.cookie('igAccessToken', result.access_token)
 		res.redirect('/instagram/photos')
 	})
 })
 
 app.get('/instagram/photos', (req, res) => {
 	// use ig token from db (that is linked to the browser session id)
-	const accessToken = req.session.igAccessToken
+	const accessToken = req.cookies.igAccessToken
 
-	console.log(req.session.igAccessToken)
-	return res.json(req.session.igAccessToken)
+	console.log('cookies', req.cookies)
+	// return res.json(req.cookies)
 
 	try {
 		ig.use({ access_token: accessToken })
