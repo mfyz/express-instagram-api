@@ -32,7 +32,7 @@ app.get('/instagram/authorize', (req, res) => {
 
 app.get('/instagram/callback', (req, res) => {
 	console.log('ig callback received!')
-	ig.authorize_user(req.query.code, redirectUri, (err, result) => {
+	ig.authorize_user(req.query.code, igRedirecrUri, (err, result) => {
 		if(err) res.send(err)
 		accessToken = result.access_token // store token in db and create a browser session id to use the token from db
 		res.redirect('/instagram/photos')
@@ -46,7 +46,7 @@ app.get('/instagram/photos', (req, res) => {
 		access_token : accessToken
 	})
 	
-	ig.user_media_recent('access_token.split('.')[0]', (err, result, pagination, remaining, limit) => {
+	ig.user_media_recent("access_token.split('.')[0]", (err, result, pagination, remaining, limit) => {
 		if(err) res.json(err)
 		console.log('instagram recent photos api call result')
 		console.log(result)
