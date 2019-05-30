@@ -52,17 +52,22 @@ app.get('/instagram/photos', (req, res) => {
 	// use ig token from db (that is linked to the browser session id)
 	const accessToken = req.session.igAccessToken
 
-	ig.use({ access_token: accessToken })
+	try {
+		ig.use({ access_token: accessToken })
 
-	// access token format: 1654560409.903ee15.416181f715cc44f99f9cf5b
-	const userId = accessToken.split('.')[0]
-	
-	ig.user_media_recent(userId, (err, result, pagination, remaining, limit) => {
-		if(err) return res.render('error')
-		// console.log('instagram recent photos api call result', result)
-		return res.json(result)
-		res.render('photos', { photos: result })
-	})
+		// access token format: 1654560409.903ee15.416181f715cc44f99f9cf5b
+		const userId = accessToken.split('.')[0]
+		
+		ig.user_media_recent(userId, (err, result, pagination, remaining, limit) => {
+			if(err) return res.render('error')
+			// console.log('instagram recent photos api call result', result)
+			return res.json(result)
+			res.render('photos', { photos: result })
+		})
+	}
+	catch (e) {
+		res.render('error')
+	}
 })
 
 app.listen(PORT, () => console.log(`App listening on port ${PORT}!`))
