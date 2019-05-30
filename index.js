@@ -18,7 +18,9 @@ app.set('view engine', 'pug')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(session({
 	secret: 'keyboard cat on instagram',
-	cookie: { secure: true, maxAge: 60000 }
+	cookie: { secure: true, maxAge: 60000 },
+	resave: true,
+	saveUninitialized: true
 }))
 
 app.get('/', (req, res) => {
@@ -38,7 +40,7 @@ app.get('/instagram/authorize', (req, res) => {
 app.get('/instagram/callback', (req, res) => {
 	console.log('ig callback received!')
 	ig.authorize_user(req.query.code, igRedirecrUri, (err, result) => {
-		if(err) res.send(err)
+		if(err) return res.send(err)
 		// store token in db and create a browser session id to use the token from db
 		// method below is not secure at all
 		req.session.igAccessToken = result.access_token
