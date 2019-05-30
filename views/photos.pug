@@ -7,5 +7,5 @@ block body
 	div.card-columns.mb-5(style='column-count:4')
 		each photo in photos
 			.card.mb-3.mr-2
-				a(href= photo.link)
+				a(href= photo.link target='_blank')
 					img.card-img-top(src= photo.images.low_resolution.url)

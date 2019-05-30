@@ -10,8 +10,7 @@ ig.use({
 	client_secret: process.env.IG_CLIENT_SECRET
 })
 
-const igRedirecrUri = 'https://mfyz-express-ig-api.herokuapp.com/instagram/callback'
-let accessToken = null
+const igRedirecrUri = process.env.IG_REDIRECT_URI
 
 const app = express()
 app.set('view engine', 'pug')
@@ -36,7 +35,8 @@ app.get('/instagram/callback', (req, res) => {
 	console.log('ig callback received!')
 	ig.authorize_user(req.query.code, igRedirecrUri, (err, result) => {
 		if(err) return res.send(err)
-		// store token in db and create a browser session id to use the token from db
+		// store token in db and create a
+		// browser session id to use the token from db
 		// method below is not secure at all
 		res.cookie('igAccessToken', result.access_token)
 		res.redirect('/instagram/photos')
@@ -50,13 +50,9 @@ app.get('/instagram/photos', (req, res) => {
 
 		ig.use({ access_token: accessToken })
 
-		// access token format: 1654560409.903ee15.416181f715cc44f99f9cf5b
-		const userId = accessToken.split('.')[0]
-		
+		const userId = accessToken.split('.')[0] // ig user id, like: 1633560409
 		ig.user_media_recent(userId, (err, result, pagination, remaining, limit) => {
 			if(err) return res.render('error')
-			// console.log('instagram recent photos api call result', result)
-			// return res.json(result)
 			res.render('photos', { photos: result })
 		})
 	}
