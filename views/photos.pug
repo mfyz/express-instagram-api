@@ -4,5 +4,6 @@ block body
 	h3 My IG Photos
 
 	each photo in photos
-		div
-			img(src=photo.url)
+		.photo
+			img(src= photo.images.low_resolution.url)
+			a(href= photo.link) photo.link
